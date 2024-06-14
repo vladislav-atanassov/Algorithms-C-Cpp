@@ -8,22 +8,13 @@ template<class T>
 class CircularLinkedList : public SinglyLinkedList<T>, public ListNode<T>
 {
 private:
-    ListNode<T>* traverseToTail(ListNode<T>* cl_head)
-    {
-        ListNode<T>* temp = cl_head;
-
-        while(temp->next != this->head)
-        {
-            temp = temp->next;
-        }
-
-        return temp;
-    }
-
-public: 
+    ListNode<T>* head;
 
     int elementCount = 0;
 
+    ListNode<T>* traverseToTail(ListNode<T>* cl_head);
+
+public: 
     CircularLinkedList() : SinglyLinkedList<T>() {}
 
     CircularLinkedList(const T& value) : SinglyLinkedList<T>(value) {}
@@ -44,10 +35,23 @@ public:
 
     void print(void) const;
 
-    void clear(void) override;
+    void clear(void) noexcept override;
 
     ~CircularLinkedList() { this->clear(); }
 };
+
+template<class T>
+ListNode<T>* CircularLinkedList<T>::traverseToTail(ListNode<T>* cl_head)
+{
+    ListNode<T>* temp = cl_head;
+
+    while(temp->next != this->head)
+    {
+        temp = temp->next;
+    }
+
+    return temp;
+}
 
 template<class T>
 void CircularLinkedList<T>::deleteAt(int index)
@@ -226,7 +230,7 @@ void CircularLinkedList<T>::print(void) const
 }
 
 template<class T>
-void CircularLinkedList<T>::clear(void)
+void CircularLinkedList<T>::clear(void) noexcept
 {
     if(!this->head)
         return;

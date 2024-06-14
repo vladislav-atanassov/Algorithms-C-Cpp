@@ -71,11 +71,12 @@ public:
 template<class T>
 class SinglyLinkedList
 {
-public:
+private:
 	ListNode<T>* head;
 
 	int elementCount = 0;
 
+public:
 	// Non-parameterized constructor
 	SinglyLinkedList(){ head = nullptr; };
 	
@@ -90,8 +91,7 @@ public:
 	static constexpr short default_validation_index = -1;
 	// Function to check for out of range
 	// and if empty errors 
-	void error_validation(
-		int index = default_validation_index, 
+	void error_validation(int index = default_validation_index, 
 		bool if_empty = true, bool if_out_of_range = true) const;
 
 	// Function to insert a node 
@@ -151,24 +151,32 @@ public:
 
 	// Function to perform insertion sort with a custom comparison function
     template <typename Compare>
-    void insertionSort(Compare comp) {
-        if (head == nullptr || head->next == nullptr)
+    void insertionSort(Compare comp) 
+	{
+        if(head == nullptr || head->next == nullptr)
             return;
 
         ListNode<T>* sortedHead = nullptr; // Initialize sorted list as empty
 
-        while (head != nullptr) {
+        while(head != nullptr) 
+		{
             ListNode<T>* current = head;
             head = head->next;
 
-            if (sortedHead == nullptr || comp(current->data, sortedHead->data)) {
+            if(sortedHead == nullptr || 
+				comp(current->data, sortedHead->data)) 
+			{
                 // Insert at the beginning of the sorted list
                 current->next = sortedHead;
                 sortedHead = current;
-            } else {
+            } 
+			else 
+			{
                 ListNode<T>* temp = sortedHead;
 
-                while (temp->next != nullptr && !comp(current->data, temp->next->data)) {
+                while(temp->next != nullptr && 
+						!comp(current->data, temp->next->data)) 
+				{
                     temp = temp->next;
                 }
 
