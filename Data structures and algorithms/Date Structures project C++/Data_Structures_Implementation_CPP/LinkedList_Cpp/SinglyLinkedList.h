@@ -23,11 +23,7 @@ public:
 template<class T>
 class SinglyLinkedListIterator
 {
-private:
-    ListNode<T>* current; 
-
 public:
-
 	// Parameterized constructor
     SinglyLinkedListIterator(ListNode<T>* startNode) : current(startNode) {}
 
@@ -64,6 +60,9 @@ public:
     {
         return !(*this == other);
     }
+
+private:
+    ListNode<T>* current; 
 };
 
 // Linked list class to
@@ -71,14 +70,9 @@ public:
 template<class T>
 class SinglyLinkedList
 {
-private:
-	ListNode<T>* head;
-
-	int elementCount = 0;
-
 public:
 	// Non-parameterized constructor
-	SinglyLinkedList(){ head = nullptr; };
+	SinglyLinkedList() { head = nullptr; };
 	
 	// Parameterized constructor
 	SinglyLinkedList(const T& value) : head(createNode(value)), elementCount(1) {}
@@ -86,13 +80,6 @@ public:
 	// Function that checks if the memory allocation is valid
 	// and calls the parameterized constructor of ListNode 
 	ListNode<T>* createNode(const T& value);
-
-	// Default index for when passing index is not requared 
-	static constexpr short default_validation_index = -1;
-	// Function to check for out of range
-	// and if empty errors 
-	void error_validation(int index = default_validation_index, 
-		bool if_empty = true, bool if_out_of_range = true) const;
 
 	// Function to insert a node 
     // at the end of the linked list
@@ -194,6 +181,18 @@ public:
 
 	// Destructor
 	~SinglyLinkedList(){ this->clear(); }
+
+protected:
+	ListNode<T>* head;
+
+	int elementCount = 0;
+
+	// Default index for when passing index is not requared 
+	static constexpr short default_validation_index = -1;
+	// Function to check for out of range
+	// and if empty errors 
+	void error_validation(int index = default_validation_index, 
+		bool if_empty = true, bool if_out_of_range = true) const;
 };
 
 template<class T>
@@ -340,7 +339,7 @@ ListNode<T>* SinglyLinkedList<T>::createNode(const T& value)
         return nullptr;
     }
 
-	elementCount++;
+	this->elementCount++;
     return newNode;
 }
 

@@ -2,6 +2,9 @@
 #include "SinglyLinkedList.h"
 #include <string>
 
+#ifdef SL_TEST
+#define SL_TEST
+
 // Driver Code
 int main()
 {
@@ -56,3 +59,5 @@ int main()
 
     return 0;
 }
+
+#endif // SL_TEST

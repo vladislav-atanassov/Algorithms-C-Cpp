@@ -1,6 +1,9 @@
 #include <iostream>
 #include "CircularLinkedList.h"
 
+#ifdef CL_TEST
+#define CL_TEST
+
 int main() 
 {
     // Testing Circular Linked List
@@ -49,3 +52,5 @@ int main()
 
     return 0;
 }
+
+#endif // CL_TEST

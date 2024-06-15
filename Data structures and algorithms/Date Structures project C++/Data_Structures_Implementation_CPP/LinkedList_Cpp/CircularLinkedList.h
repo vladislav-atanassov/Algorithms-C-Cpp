@@ -7,13 +7,6 @@
 template<class T>
 class CircularLinkedList : public SinglyLinkedList<T>, public ListNode<T>
 {
-private:
-    ListNode<T>* head;
-
-    int elementCount = 0;
-
-    ListNode<T>* traverseToTail(ListNode<T>* cl_head);
-
 public: 
     CircularLinkedList() : SinglyLinkedList<T>() {}
 
@@ -33,17 +26,22 @@ public:
 
     T& tail(void) override;
 
-    void print(void) const;
+    void print(void) const override;
 
     void clear(void) noexcept override;
 
     ~CircularLinkedList() { this->clear(); }
+
+protected:
+    int elementCount = 0;
+
+    ListNode<T>* traverseToTail(void) const;
 };
 
 template<class T>
-ListNode<T>* CircularLinkedList<T>::traverseToTail(ListNode<T>* cl_head)
+ListNode<T>* CircularLinkedList<T>::traverseToTail(void) const
 {
-    ListNode<T>* temp = cl_head;
+    ListNode<T>* temp = this->head;
 
     while(temp->next != this->head)
     {
@@ -88,7 +86,6 @@ template<class T>
 void CircularLinkedList<T>::pop(void)
 {
     this->error_validation(this->default_validation_index, true, false);
-    elementCount--;
 
     if(!this->head->next)
     {
@@ -108,6 +105,8 @@ void CircularLinkedList<T>::pop(void)
 
     temp2->next = temp1->next;
     delete temp1;
+
+    elementCount--;
 }
 
 template<class T>
@@ -122,7 +121,7 @@ void CircularLinkedList<T>::pull(void)
         return;
     }
     
-    ListNode<T>* temp = traverseToTail(this->head);
+    ListNode<T>* temp = traverseToTail();
 
     temp->next = this->head->next;
     delete this->head;
@@ -143,7 +142,7 @@ void CircularLinkedList<T>::append(const T& newData)
         return;
     }
 
-    ListNode<T>* temp = traverseToTail(this->head);
+    ListNode<T>* temp = traverseToTail();
 
     temp->next = newNode;
     newNode->next = this->head;
@@ -155,9 +154,7 @@ T& CircularLinkedList<T>::tail(void)
 	// Check for error cases
 	this->error_validation(this->default_validation_index, true, false);
 
-	ListNode<T>* temp = traverseToTail(this->head);
-
-	return temp->data;
+	return traverseToTail()->data;
 }
 
 template<class T>
@@ -172,7 +169,7 @@ void CircularLinkedList<T>::push(const T& newData)
         return;
     }
 
-    ListNode<T>* temp = traverseToTail(this->head);
+    ListNode<T>* temp = traverseToTail();
 
     newNode->next = this->head;
     this->head = newNode;
